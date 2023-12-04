@@ -3,14 +3,23 @@ import './App.css';
 import { useState } from 'react';
 
 function App() {
- 
-  const [inputData, setInputData]=useState({username:'Ameya',password:'test'});
 
-   const setUsername= (event)=>{
+ 
+  const [inputData, setInputData]=useState({username:'',password:''});
+
+  //errorMessage = {message:'Oh!'}
+  const [errorMessage,setErrorMessage]=useState({message:'Oh!'});
+
+   const setUsername= (event)=> {
             //Reading value from text field 
             let value=event.target.value;
             console.log("value  = "+value);
             setInputData({...inputData, username:value});
+   }
+
+   const clearText=()=>{
+         setInputData({username:'',password:''});
+         setErrorMessage({message:''});
    }
 
    const setPassword= (event)=>{
@@ -20,33 +29,38 @@ function App() {
     setInputData({...inputData, password:value});
 }
  
-  function owow() {
-     console.log(this);  ///window
-  }
-
   const processData=(event)=> {
       event.preventDefault();
       console.log("username = "+inputData.username);
       console.log("password = "+inputData.password);
+      if(inputData.username=='Ameya' && inputData.password=='test'){
+        setErrorMessage({message:'Username and password are correct!!!!!!!!!!'});
+      }else{
+        setErrorMessage({message:'Sorry Username and password are not correct!!!!!!!!!!'});
+      }
       console.log(inputData);
       //API Call ->> 
   }
 
    const callFake = ()=>{
          alert("Hey I am not fake!!!!!!!!!!");
+         console.log(this);  ///window
          document.getElementById("tclear").innerHTML="Hey I am changed now";
    };
          
 
+   //JSX - JavaScript XML  - class -> className
   return (
     <div>
        <header className="CHeader">
        </header>
        <div className="container">
-           <h2>Login Page {inputData.username} : {inputData.password}</h2>
+           <h2>Login Page!!!!!!!!!!!</h2>
            <img id="img1" style={{height: "120px"}} src="https://cdn-icons-png.flaticon.com/512/7022/7022927.png"/>
        <img id="img2" style={{height: "120px"}} src="https://cdn-icons-png.flaticon.com/512/7022/7022927.png"/>
        <img id="img3" style={{height: "120px"}} src="https://cdn-icons-png.flaticon.com/512/7022/7022927.png"/>
+       <hr/>
+       <span className="Message">{errorMessage.message}</span>
 
          <form onSubmit={processData}>
             <div className="form-group">
@@ -60,8 +74,11 @@ function App() {
             <div className="form-group">
              <br/> 
             <button  type="submit"  className="btn btn-primary">Login</button>
-            <button id="tclear"  type="reset"  className="btn btn-info mx-2">Clear</button>
+            <button id="tclear" onClick={clearText}  type="reset"  className="btn btn-info mx-2">Clear</button>
             <button  onClick={callFake} type="button"  className="btn btn-warning mx-2">Fake!!!!</button>
+
+            <button  type="button"  className="btn btn-danger mx-2">Signup</button>
+
             </div>
          </form>
        
