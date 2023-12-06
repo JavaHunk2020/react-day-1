@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function App() {
-
- 
+function Login() {
+    
+  const navigate = useNavigate();
+  
   const [inputData, setInputData]=useState({username:'',password:''});
 
   //errorMessage = {message:'Oh!'}
@@ -77,7 +79,7 @@ function App() {
             <button id="tclear" onClick={clearText}  type="reset"  className="btn btn-info mx-2">Clear</button>
             <button  onClick={callFake} type="button"  className="btn btn-warning mx-2">Fake!!!!</button>
 
-            <button  type="button"  className="btn btn-danger mx-2">Signup</button>
+            <button onClick={()=>{navigate('/signup')}}  type="button"  className="btn btn-danger mx-2">Signup</button>
 
             </div>
          </form>
@@ -88,4 +90,4 @@ function App() {
   );
 }
 
-export default App;
+export default Login;

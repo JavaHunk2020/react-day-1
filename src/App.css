@@ -1,7 +1,12 @@
 .Message {
-   color:red;
+   color:#2196f3;
    font-weight: bold;
    font-size: 20px;
+}
+
+.SHeader {
+  height: 30px;
+  background-color: red;
 }
 
 .CHeader {
