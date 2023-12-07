@@ -35,8 +35,10 @@ function Login() {
       event.preventDefault();
       console.log("username = "+inputData.username);
       console.log("password = "+inputData.password);
+
       if(inputData.username=='Ameya' && inputData.password=='test'){
         setErrorMessage({message:'Username and password are correct!!!!!!!!!!'});
+
       }else{
         setErrorMessage({message:'Sorry Username and password are not correct!!!!!!!!!!'});
       }
