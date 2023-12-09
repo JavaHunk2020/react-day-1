@@ -2,8 +2,11 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 function Login() {
+
+  const baseURI="http://localhost:4206/v1/cauth";
     
   const navigate = useNavigate();
   
@@ -36,13 +39,24 @@ function Login() {
       console.log("username = "+inputData.username);
       console.log("password = "+inputData.password);
 
-      if(inputData.username=='Ameya' && inputData.password=='test'){
-        setErrorMessage({message:'Username and password are correct!!!!!!!!!!'});
-
-      }else{
-        setErrorMessage({message:'Sorry Username and password are not correct!!!!!!!!!!'});
-      }
-      console.log(inputData);
+      axios.post(baseURI,{email:inputData.username,password:inputData.password})
+      .then(response => {
+          let token=response.data.Authorization;
+          let email=response.data.email;
+          //Why we are storing
+          //so that we can access it any where in application
+          localStorage.setItem('userToken',token);
+          localStorage.setItem('email',email);
+          navigate('/dashboard');
+         
+      }).catch(error=>{
+          console.log(error);
+          if(error.code==='ERR_NETWORK'){
+            setErrorMessage({message:'It seems like rest api is down!!!!!!!!!!!!!!!!!!!!!'});
+          }else{
+              setErrorMessage({message:'Sorry Username and password are not correct!!!!!!!!!!'});
+          }
+      });;
       //API Call ->> 
   }
 
