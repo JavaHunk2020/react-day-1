@@ -7,16 +7,26 @@ import HelloEmail from './HelloEmail';
 
 function Dashbaord() {
 
+    const baseURI="http://localhost:4206/v1";
     const navigate = useNavigate();
 
     const [email,setEmail]=useState('');
 
-    /**useEffect(()=> {
-        axios.get(`${baseURl}/signups`).then(res => {
-            setTableData(res.data);
-            //navigate('/auth');
+    const [signups,setSignups]=useState([]);
+
+    //WHEN WE WANTED TO PERFORM SOME ACTION AT THE TIME OF LOADING PAGE
+    useEffect(()=> {
+        let userToken=localStorage.getItem('userToken');
+        const config = {
+            headers: { Authorization: `Bearer ${userToken}` }
+        };
+        axios.get(`${baseURI}/signups`,config).then(res => {
+            setSignups(res.data);
+          }).catch((error)=>{
+                localStorage.setItem("emessage","Sorry you are not authorized to access the dashboard");
+                navigate('/login');
           });
-      });*/
+      },[]);
     
     useEffect(()=> {
           let email = localStorage.getItem('email');
@@ -46,32 +56,32 @@ function Dashbaord() {
          <img style={{height:"50px"}} onClick={logout} src="https://tse2.mm.bing.net/th?id=OIP.s3aN_mL8rWu0uyCEbKeNuwHaHa&pid=Api&P=0&h=220"/> 
 
        <hr/>
-       <h2>Bordered Table</h2>
-  <p>The .table-bordered class adds borders on all sides of the table and the cells:</p>            
+       <h2>Signups</h2>
+ 
   <table className="table table-bordered">
     <thead>
-      <tr >
-        <th>Firstname</th>
-        <th>Lastname</th>
+     
+      <tr>
+        <th>Name</th>
         <th>Email</th>
+        <th>Role</th>
+        <th>DOE</th>
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>John</td>
-        <td>Doe</td>
-        <td>john@example.com</td>
+      {
+    
+      signups.map((signup,index)=>(  
+      <tr key={index}>
+        <td>{signup.name}</td>
+        <td>{signup.email}</td>
+        <td>{signup.role}</td>
+        <td>{signup.doe}</td>
       </tr>
-      <tr>
-        <td>Mary</td>
-        <td>Moe</td>
-        <td>mary@example.com</td>
-      </tr>
-      <tr>
-        <td>July</td>
-        <td>Dooley</td>
-        <td>july@example.com</td>
-      </tr>
+      ))
+
+     }
+      
     </tbody>
   </table>
                 

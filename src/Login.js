@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
@@ -14,6 +14,12 @@ function Login() {
 
   //errorMessage = {message:'Oh!'}
   const [errorMessage,setErrorMessage]=useState({message:'Oh!'});
+
+   useEffect(()=> {
+     let emessage = localStorage.getItem('emessage');
+     setErrorMessage({message:emessage});
+   });
+
 
    const setUsername= (event)=> {
             //Reading value from text field 
@@ -60,11 +66,11 @@ function Login() {
       //API Call ->> 
   }
 
-   const callFake = ()=>{
-         alert("Hey I am not fake!!!!!!!!!!");
-         console.log(this);  ///window
-         document.getElementById("tclear").innerHTML="Hey I am changed now";
-   };
+  //  const callFake = ()=>{
+  //        alert("Hey I am not fake!!!!!!!!!!");
+  //        console.log(this);  ///window
+  //        document.getElementById("tclear").innerHTML="Hey I am changed now";
+  //  };
          
 
    //JSX - JavaScript XML  - class -> className
@@ -93,7 +99,7 @@ function Login() {
              <br/> 
             <button  type="submit"  className="btn btn-primary">Login</button>
             <button id="tclear" onClick={clearText}  type="reset"  className="btn btn-info mx-2">Clear</button>
-            <button  onClick={callFake} type="button"  className="btn btn-warning mx-2">Fake!!!!</button>
+            <button type="button"  className="btn btn-warning mx-2">Forget Password</button>
 
             <button onClick={()=>{navigate('/signup')}}  type="button"  className="btn btn-danger mx-2">Signup</button>
 
