@@ -4,6 +4,12 @@
    font-size: 20px;
 }
 
+.RedMessage{
+  color:red;
+  font-weight: bold;
+  font-size: 20px;
+}
+
 .SHeader {
   height: 30px;
   background-color: red;

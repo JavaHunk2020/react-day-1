@@ -99,7 +99,7 @@ function Login() {
              <br/> 
             <button  type="submit"  className="btn btn-primary">Login</button>
             <button id="tclear" onClick={clearText}  type="reset"  className="btn btn-info mx-2">Clear</button>
-            <button type="button"  className="btn btn-warning mx-2">Forget Password</button>
+            <button type="button" onClick={()=>navigate('/emailCode')}  className="btn btn-warning mx-2">Forget Password</button>
 
             <button onClick={()=>{navigate('/signup')}}  type="button"  className="btn btn-danger mx-2">Signup</button>
 
