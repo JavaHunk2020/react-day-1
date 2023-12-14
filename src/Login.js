@@ -1,12 +1,15 @@
 import logo from './logo.svg';
 import './App.css';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { AuthContext } from './service/auth.context.service';
 
 function Login() {
 
   const baseURI="http://localhost:4206/v1/cauth";
+
+  const { token, setAuthToken, logout } = useContext(AuthContext)
     
   const navigate = useNavigate();
   
@@ -52,6 +55,7 @@ function Login() {
           //Why we are storing
           //so that we can access it any where in application
           localStorage.setItem('userToken',token);
+          setAuthToken(token);
           localStorage.setItem('email',email);
           navigate('/dashboard');
          

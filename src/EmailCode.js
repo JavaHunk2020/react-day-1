@@ -6,7 +6,9 @@ import axios from 'axios';
 
 function EmailCode() {
 
-  const baseURI="http://localhost:4206/v1/verifyemail";
+  const baseURI="http://localhost:4206/v1";
+
+  const navigate = useNavigate();
 
   const [showCodeText, setShowCodeText]=useState(false);
   const [email, setEmail]=useState('');
@@ -14,8 +16,6 @@ function EmailCode() {
   const [errorMessage, setErrorMessage]=useState('');
 
   
-
-
   const updateEmail= (event)=> {
     //Reading value from text field 
     let value=event.target.value;
@@ -28,10 +28,28 @@ function EmailCode() {
     setCode(value);
   }
 
+  const validateCodeEmail=(event)=>{
+    const queryData=`?email=${email}&code=${code}`;
+    axios.get(`${baseURI}/verify/email/code${queryData}`).then(res => {
+      if(res.data.status==='success'){
+          navigate('/resetPassword');
+      } else{
+          setErrorMessage('Sorry your code is not valid');
+      }
+      
+    }).catch((error)=>{
+         
+    });
+
+
+    event.preventDefault();
+  }
+
   const generateCode=(event)=>{
+       setErrorMessage('');
         //MAKE A REST API CALL TO VALIDATE THE EMAIL AND GENERATE CODE AND SEND BACK OVER HERE
         //verifyemail/{email}
-        axios.get(`${baseURI}/${email}`).then(res => {
+        axios.get(`${baseURI}/verifyemail/${email}`).then(res => {
             if(res.data.status==='success'){
                 setShowCodeText(true);
             } else{
@@ -73,7 +91,7 @@ function EmailCode() {
             <div className="form-group">
              <br/> 
              {
-                showCodeText ?(<button  type="button"  className="btn btn-success">Validate Code</button>):(<button  type="submit"  className="btn btn-primary">Send Code</button>)
+                showCodeText ?(<button  type="button" onClick={validateCodeEmail}  className="btn btn-success">Validate Code</button>):(<button  type="submit"  className="btn btn-primary">Send Code</button>)
              }
             
             </div>
