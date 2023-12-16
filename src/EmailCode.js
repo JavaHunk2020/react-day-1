@@ -32,6 +32,8 @@ function EmailCode() {
     const queryData=`?email=${email}&code=${code}`;
     axios.get(`${baseURI}/verify/email/code${queryData}`).then(res => {
       if(res.data.status==='success'){
+          localStorage.setItem('code',code);
+          localStorage.setItem('email',email);
           navigate('/resetPassword');
       } else{
           setErrorMessage('Sorry your code is not valid');
