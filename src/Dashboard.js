@@ -31,7 +31,7 @@ function Dashbaord() {
     useEffect(()=> {
           let email = localStorage.getItem('email');
           setEmail(email);
-      });
+      },[]);
 
       const logout = ()=>{
         localStorage.clear('userToken');
@@ -39,6 +39,11 @@ function Dashbaord() {
         navigate('/login');
       }
   
+      const myStyle = {
+        color: 'blue',
+        fontSize: '16px',
+        // Add more CSS properties as needed
+      };
 
    //JSX - JavaScript XML  - class -> className
   return (
@@ -58,25 +63,40 @@ function Dashbaord() {
        <hr/>
        <h2>Signups</h2>
  
-  <table className="table table-bordered">
+  <table className="table table-striped">
     <thead>
      
-      <tr>
+      <tr className="headerColor">
         <th>Name</th>
         <th>Email</th>
-        <th>Role</th>
+        <th>Current Role</th>
+        <th>Update Role</th>
         <th>DOE</th>
+        <th>ACTION</th>
       </tr>
     </thead>
     <tbody>
       {
     
       signups.map((signup,index)=>(  
-      <tr key={index}>
+
+      <tr key={index} style={{backgroundColor:"red"}}>
         <td>{signup.name}</td>
         <td>{signup.email}</td>
-        <td>{signup.role}</td>
-        <td>{signup.doe}</td>
+        <td><b>{signup.role}</b></td>
+        <td>
+          <select className='form-control' style={{"backgroundColor":"#e4f1f7"}}>
+             <option>CUSTOMER</option>
+             <option>EMPLOYEE</option>
+             <option>ADMIN</option>
+          </select>
+        </td>
+        <td><b>{signup.doe}</b></td>
+        <td>
+        <button  type="button"  className="btn btn-danger btn-sm">DELETE</button>
+ 
+
+        </td>
       </tr>
       ))
 

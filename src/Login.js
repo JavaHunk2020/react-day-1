@@ -21,13 +21,13 @@ function Login() {
    useEffect(()=> {
      let emessage = localStorage.getItem('emessage');
      setErrorMessage({message:emessage});
-   });
+   },[]);
 
 
    const setUsername= (event)=> {
             //Reading value from text field 
             let value=event.target.value;
-            console.log("value  = "+value);
+            clearText();
             setInputData({...inputData, username:value});
    }
 
@@ -38,6 +38,7 @@ function Login() {
 
    const setPassword= (event)=>{
     //Reading value from text field 
+    clearText();
     let value=event.target.value;
     console.log("value  = "+value);
     setInputData({...inputData, password:value});
