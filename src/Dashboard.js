@@ -19,16 +19,7 @@ function Dashbaord() {
 
     //WHEN WE WANTED TO PERFORM SOME ACTION AT THE TIME OF LOADING PAGE
     useEffect(()=> {
-        let userToken=localStorage.getItem('userToken');
-        const config = {
-            headers: { Authorization: `Bearer ${userToken}` }
-        };
-        axios.get(`${baseURI}/signups`,config).then(res => {
-            setSignups(res.data);
-          }).catch((error)=>{
-                localStorage.setItem("emessage","Sorry you are not authorized to access the dashboard");
-                navigate('/login');
-          });
+         fetchDashboard();
       },[]);
     
     useEffect(()=> {
@@ -43,8 +34,23 @@ function Dashbaord() {
       }
 
 
-      const updateSelectedRole=(index,signup)=> {
+      const fetchDashboard = ()=>{
+        let userToken=localStorage.getItem('userToken');
+        const config = {
+            headers: { Authorization: `Bearer ${userToken}` }
+        };
+        axios.get(`${baseURI}/signups`,config).then(res => {
+            setSignups(res.data);
+          }).catch((error)=>{
+                localStorage.setItem("emessage","Sorry you are not authorized to access the dashboard");
+                navigate('/login');
+          });
+      }
+
+
+      const updateSelectedRole=(signup)=> {
             console.log(signup); 
+            //I am selecting drop down
             let crole =document.getElementById(signup.email).value;
             const request={email:signup.email,role:crole};
             console.log(request);
@@ -53,15 +59,26 @@ function Dashbaord() {
                  headers: { Authorization: `Bearer ${userToken}` }
             };
             axios.patch(`${baseURI}/customers/role`,request,config).then(res => {
-              setNmessage(`!!!!!!!!!!!Role has been updated - ${signup.email}`);
-              axios.get(`${baseURI}/signups`,config).then(res => {
-                setSignups(res.data);
-              }).catch((error)=>{
-                    localStorage.setItem("emessage","Sorry you are not authorized to access the dashboard");
-                    navigate('/login');
-              });
+                 setNmessage(`!!!!!!!!!!!Role has been updated - ${signup.email}`);
+                 fetchDashboard();
             }).catch((error)=>{
                   navigate('/login');
+            });
+      }
+
+
+      const deleteSignup =(email)=> {
+
+        let userToken=localStorage.getItem('userToken');
+        const config = {
+             headers: { Authorization: `Bearer ${userToken}` }
+        };
+
+        axios.delete(`${baseURI}/signups/${email}`,config).then(res => {
+                 setNmessage(`!!!!!!!!!!!data is deleted - ${email}`);
+                 fetchDashboard();
+            }).catch((error)=>{
+                setNmessage(`!!!!!!!!!!!data could not deleted - ${email}`);
             });
       }
 
@@ -114,7 +131,7 @@ function Dashbaord() {
         <td>{signup.email}</td>
         <td><b>{signup.role}</b></td>
         <td>
-          <select value={signup.role} id={signup.email} onChange={()=>{updateSelectedRole(index,signup);}} className='form-control' style={{"backgroundColor":"#e4f1f7"}}>
+          <select value={signup.role} id={signup.email} onChange={()=>{updateSelectedRole(signup);}} className='form-control' style={{"backgroundColor":"#e4f1f7"}}>
              <option>CUSTOMER</option>
              <option>EMPLOYEE</option>
              <option>ADMIN</option>
@@ -122,8 +139,9 @@ function Dashbaord() {
         </td>
         <td><b>{signup.doe}</b></td>
         <td>
-        <button  type="button"  className="btn btn-danger btn-sm">DELETE</button>
- 
+        <button onClick={()=>deleteSignup(signup.email)} type="button"  className="btn btn-danger btn-sm">DELETE</button>
+           &nbsp; &nbsp;
+             <button  type="button"  className="btn btn-success btn-sm">History</button>
 
         </td>
       </tr>
