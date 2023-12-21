@@ -34,7 +34,7 @@ function Dashbaord() {
     useEffect(()=> {
           let email = localStorage.getItem('email');
           setEmail(email);
-      },[]);
+      },[email]);
 
       const logout = ()=>{
         localStorage.clear('userToken');
@@ -43,18 +43,17 @@ function Dashbaord() {
       }
 
 
-      const updateSelectedRole=(signup,event)=> {
+      const updateSelectedRole=(index,signup)=> {
             console.log(signup); 
-            let crole =document.getElementById("crole").value;
+            let crole =document.getElementById(signup.email).value;
             const request={email:signup.email,role:crole};
             console.log(request);
-            signup.role=crole;
             let userToken=localStorage.getItem('userToken');
             const config = {
                  headers: { Authorization: `Bearer ${userToken}` }
             };
             axios.patch(`${baseURI}/customers/role`,request,config).then(res => {
-              setNmessage(`Role has been updated - ${signup.email}`);
+              setNmessage(`!!!!!!!!!!!Role has been updated - ${signup.email}`);
               axios.get(`${baseURI}/signups`,config).then(res => {
                 setSignups(res.data);
               }).catch((error)=>{
@@ -115,7 +114,7 @@ function Dashbaord() {
         <td>{signup.email}</td>
         <td><b>{signup.role}</b></td>
         <td>
-          <select value={signup.role} id="crole" onChange={()=>{updateSelectedRole(signup);}} className='form-control' style={{"backgroundColor":"#e4f1f7"}}>
+          <select value={signup.role} id={signup.email} onChange={()=>{updateSelectedRole(index,signup);}} className='form-control' style={{"backgroundColor":"#e4f1f7"}}>
              <option>CUSTOMER</option>
              <option>EMPLOYEE</option>
              <option>ADMIN</option>
