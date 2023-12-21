@@ -12,6 +12,9 @@ function Dashbaord() {
 
     const [email,setEmail]=useState('');
 
+    const [nmessage,setNmessage]=useState('');
+    
+
     const [signups,setSignups]=useState([]);
 
     //WHEN WE WANTED TO PERFORM SOME ACTION AT THE TIME OF LOADING PAGE
@@ -38,6 +41,32 @@ function Dashbaord() {
         localStorage.clear('email');
         navigate('/login');
       }
+
+
+      const updateSelectedRole=(signup,event)=> {
+            console.log(signup); 
+            let crole =document.getElementById("crole").value;
+            const request={email:signup.email,role:crole};
+            console.log(request);
+            signup.role=crole;
+            let userToken=localStorage.getItem('userToken');
+            const config = {
+                 headers: { Authorization: `Bearer ${userToken}` }
+            };
+            axios.patch(`${baseURI}/customers/role`,request,config).then(res => {
+              setNmessage(`Role has been updated - ${signup.email}`);
+              axios.get(`${baseURI}/signups`,config).then(res => {
+                setSignups(res.data);
+              }).catch((error)=>{
+                    localStorage.setItem("emessage","Sorry you are not authorized to access the dashboard");
+                    navigate('/login');
+              });
+            }).catch((error)=>{
+                  navigate('/login');
+            });
+      }
+
+
   
       const myStyle = {
         color: 'blue',
@@ -59,10 +88,11 @@ function Dashbaord() {
          <HelloEmail/>
 
          <img style={{height:"50px"}} onClick={logout} src="https://tse2.mm.bing.net/th?id=OIP.s3aN_mL8rWu0uyCEbKeNuwHaHa&pid=Api&P=0&h=220"/> 
-
+      
        <hr/>
        <h2>Signups</h2>
- 
+       <span className="Message">{nmessage}</span>
+
   <table className="table table-striped">
     <thead>
      
@@ -85,7 +115,7 @@ function Dashbaord() {
         <td>{signup.email}</td>
         <td><b>{signup.role}</b></td>
         <td>
-          <select className='form-control' style={{"backgroundColor":"#e4f1f7"}}>
+          <select value={signup.role} id="crole" onChange={()=>{updateSelectedRole(signup);}} className='form-control' style={{"backgroundColor":"#e4f1f7"}}>
              <option>CUSTOMER</option>
              <option>EMPLOYEE</option>
              <option>ADMIN</option>
