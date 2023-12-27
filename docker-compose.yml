@@ -1,0 +1,7 @@
+version: '3'
+services:
+  thothitweb:
+    container_name: reactWebApplication
+    build: .
+    ports:
+      -3000:80
