@@ -5,3 +5,31 @@ services:
     build: .
     ports:
       - "3000:80"
+
+  mysqldatabase:
+    container_name: mysqltechdb-container
+    image: mysql:latest    
+    environment:
+      - MYSQL_ROOT_PASSWORD=cmapdbadmin
+      - MYSQL_DATABASE=megacar_db
+      - MYSQL_USER=dbadmin
+      - MYSQL_PASSWORD=cmapdbadmin
+    ports:
+      - 33006:3306
+    volumes:
+      - /data/mysql
+
+  spring-boot-mvc-jpa-app: 
+    container_name: rest-api-container
+    image: rest-api-image
+    build:
+      context: ../technohunk-car-app
+      dockerfile: Dockerfile
+    depends_on:
+      - mysqldatabase
+    ports:
+      - 4206:4206
+    volumes:
+      - /data/spring-boot-app
+
+    
