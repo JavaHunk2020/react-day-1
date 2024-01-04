@@ -8,7 +8,6 @@ import { API_SERVER } from './config/constant';
 
 function Dashbaord() {
 
-    const baseURI="http://localhost:4206/v1";
     const navigate = useNavigate();
 
     const [email,setEmail]=useState('');
@@ -59,7 +58,7 @@ function Dashbaord() {
             const config = {
                  headers: { Authorization: `Bearer ${userToken}` }
             };
-            axios.patch(`${baseURI}/customers/role`,request,config).then(res => {
+            axios.patch(`${API_SERVER}/customers/role`,request,config).then(res => {
                  setNmessage(`!!!!!!!!!!!Role has been updated - ${signup.email}`);
                  fetchDashboard();
             }).catch((error)=>{
@@ -75,7 +74,7 @@ function Dashbaord() {
              headers: { Authorization: `Bearer ${userToken}` }
         };
 
-        axios.delete(`${baseURI}/signups/${email}`,config).then(res => {
+        axios.delete(`${API_SERVER}/signups/${email}`,config).then(res => {
                  setNmessage(`!!!!!!!!!!!data is deleted - ${email}`);
                  fetchDashboard();
             }).catch((error)=>{
