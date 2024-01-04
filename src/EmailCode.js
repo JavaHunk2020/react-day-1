@@ -50,7 +50,7 @@ function EmailCode() {
        setErrorMessage('');
         //MAKE A REST API CALL TO VALIDATE THE EMAIL AND GENERATE CODE AND SEND BACK OVER HERE
         //verifyemail/{email}
-        axios.get(`${baseURI}/verifyemail/${email}`).then(res => {
+        axios.get(`${API_SERVER}/verifyemail/${email}`).then(res => {
             if(res.data.status==='success'){
                 setShowCodeText(true);
             } else{
