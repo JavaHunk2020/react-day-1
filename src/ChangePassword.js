@@ -3,10 +3,10 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_SERVER } from './config/constant';
 
 function ChangePassword() {
-    const baseURI="http://localhost:4206/v1";
-
+   
     const navigate = useNavigate();
 
     const [newPassword, setNewPassword]=useState('');
@@ -25,7 +25,7 @@ function ChangePassword() {
     }
   
     const changePassword=(event)=> {
-        axios.put(`${baseURI}/change/password`,{newPassword:newPassword,confirmPassword:confirmPassword,email:localStorage.getItem('email'),code:localStorage.getItem('code')}).then(res => {
+        axios.put(`${API_SERVER}/change/password`,{newPassword:newPassword,confirmPassword:confirmPassword,email:localStorage.getItem('email'),code:localStorage.getItem('code')}).then(res => {
           if(res.data.code==='100'){
               localStorage.removeItem('code');
               localStorage.removeItem('email');

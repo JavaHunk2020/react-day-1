@@ -1,11 +1,12 @@
 import axios from "axios";
+import { API_SERVER } from "../config/constant";
 
 const API_URL = "http://localhost:8080/api/auth/";
 
 class AuthService {
   login(username, password) {
     return axios
-      .post(API_URL + "signin", {
+      .post(`${API_SERVER}auth` + "signin", {
         username,
         password
       })

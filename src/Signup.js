@@ -1,13 +1,12 @@
 import axios from "axios";
 import React,{ useState,ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { API_SERVER } from "./config/constant";
 
 
 const Signup = () =>{
 
     const navigate = useNavigate();
-
-    const baseURI="http://localhost:4206/v1/signups";
 
     const [signupData,setSignupData]=useState({name:'',password:'',email:''});
     const [emessage,setEmessage]=useState('');
@@ -26,7 +25,7 @@ const Signup = () =>{
           //baseURI - URI for signup API
           //signupData = JavaScript object which will be converted into 
           //JSON when it will travel over network using http protocol
-          axios.post(baseURI,signupData).then(response=>{
+          axios.post(`${API_SERVER}/signups`,signupData).then(response=>{
               console.log(response);
               if(response.status==200){
                  navigate('/login');

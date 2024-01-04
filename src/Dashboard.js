@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import HelloEmail from './HelloEmail';
+import { API_SERVER } from './config/constant';
 
 function Dashbaord() {
 
@@ -39,7 +40,7 @@ function Dashbaord() {
         const config = {
             headers: { Authorization: `Bearer ${userToken}` }
         };
-        axios.get(`${baseURI}/signups`,config).then(res => {
+        axios.get(`${API_SERVER}/signups`,config).then(res => {
             setSignups(res.data);
           }).catch((error)=>{
                 localStorage.setItem("emessage","Sorry you are not authorized to access the dashboard");

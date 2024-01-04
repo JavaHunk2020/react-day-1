@@ -4,10 +4,9 @@ import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from './service/auth.context.service';
+import { API_SERVER } from './config/constant';
 
 function Login() {
-
-  const baseURI="http://localhost:4206/v1/cauth";
 
   const { token, setAuthToken, logout } = useContext(AuthContext)
     
@@ -49,7 +48,7 @@ function Login() {
       console.log("username = "+inputData.username);
       console.log("password = "+inputData.password);
 
-      axios.post(baseURI,{email:inputData.username,password:inputData.password})
+      axios.post(`${API_SERVER}/cauth`,{email:inputData.username,password:inputData.password})
       .then(response => {
           let token=response.data.Authorization;
           let email=response.data.email;

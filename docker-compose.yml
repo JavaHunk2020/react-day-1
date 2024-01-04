@@ -23,7 +23,7 @@ services:
     container_name: rest-api-container
     image: rest-api-image
     build:
-      context: ../technohunk-car-app
+      context: ../spring-boot-auth-signup
       dockerfile: Dockerfile
     depends_on:
       - mysqldatabase

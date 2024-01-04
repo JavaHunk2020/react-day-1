@@ -3,11 +3,10 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { API_SERVER } from './config/constant';
 
 function EmailCode() {
-
-  const baseURI="http://localhost:4206/v1";
-
+ 
   const navigate = useNavigate();
 
   const [showCodeText, setShowCodeText]=useState(false);
@@ -30,7 +29,7 @@ function EmailCode() {
 
   const validateCodeEmail=(event)=>{
     const queryData=`?email=${email}&code=${code}`;
-    axios.get(`${baseURI}/verify/email/code${queryData}`).then(res => {
+    axios.get(`${API_SERVER}/verify/email/code${queryData}`).then(res => {
       if(res.data.status==='success'){
           localStorage.setItem('code',code);
           localStorage.setItem('email',email);
